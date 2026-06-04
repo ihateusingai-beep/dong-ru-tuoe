@@ -85,6 +85,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .quiz-opt { padding: 20px; font-size: 1.5em; background: #f5f5f5; border: 3px solid #ddd; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .quiz-opt-tts { font-size: 0.7em; opacity: 0.5; }
 .quiz-opt-tts:hover { opacity: 1; }
+.quiz-opt-label { font-size: 1.3em; font-weight: bold; color: var(--purple); width: 40px; text-align: center; }
 .quiz-tts-btn { font-size: 0.7em; background: var(--purple); color: #fff; border: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; margin-left: 8px; vertical-align: middle; }
 .quiz-tts-btn:hover { opacity: 0.8; }
 .quiz-opt:hover { background: #f3e5f5; border-color: var(--purple); transform: scale(1.03); }
@@ -454,6 +455,7 @@ function renderQuiz() {
   document.getElementById('quizQuestion').innerHTML = q.q + ' <button class="quiz-tts-btn" onclick="speak(\'' + q.q.replace(/'/g, "\\'") + '\')">🔊</button>';
   document.getElementById('quizOptions').innerHTML = q.opts.map((opt, i) => `
       <div class="quiz-opt-row">
+        <div class="quiz-opt-label">${['A','B','C','D'][i]}</div>
         <button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>
         <button class="quiz-tts-btn" onclick="speak('${opt.replace(/'/g, "\\'")}'); return false;">🔊</button>
       </div>
