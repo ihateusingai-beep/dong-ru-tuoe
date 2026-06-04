@@ -24,6 +24,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .home-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
 .home-title { font-size: 2.5em; color: var(--purple); margin-bottom: 10px; }
 .home-sub { font-size: 1.2em; color: #666; margin-bottom: 30px; }
+.home-img { width: 180px; height: 180px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
 .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
 .avatar-btn { font-size: 2.5em; background: #f0f0f0; border: 4px solid #ddd; border-radius: 16px; padding: 12px; cursor: pointer; transition: all 0.2s; }
 .avatar-btn:hover, .avatar-btn.selected { border-color: var(--purple); background: #f3e5f5; transform: scale(1.1); }
@@ -34,9 +35,9 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 /* SLIDES */
 #slides { background: linear-gradient(180deg, #4a148c 0%, #7b1fa2 100%); }
 .slide-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 800px; text-align: center; color: #fff; }
-.slide-title { font-size: 3em; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
-.slide-body { font-size: 1.8em; line-height: 1.6; max-width: 700px; }
-.slide-img { font-size: 5em; margin: 20px 0; }
+.slide-img { width: 280px; height: 200px; object-fit: cover; border-radius: 20px; margin: 20px 0; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.slide-title { font-size: 2.8em; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
+.slide-body { font-size: 1.6em; line-height: 1.6; max-width: 700px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 16px; }
 .slide-nav { display: flex; gap: 16px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
 .nav-btn { background: rgba(255,255,255,0.2); border: 2px solid #fff; color: #fff; padding: 14px 28px; font-size: 1.2em; border-radius: 12px; cursor: pointer; }
 .nav-btn:hover { background: rgba(255,255,255,0.4); }
@@ -47,8 +48,9 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 /* IDIOM EXPLAIN */
 .idiom-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); margin: 20px 0; }
 .idiom-big { font-size: 4em; color: var(--purple); margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-.idiom-meaning { font-size: 2em; color: #333; margin: 20px 0; line-height: 1.5; }
-.idiom-example { font-size: 1.5em; color: #666; margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 16px; }
+.idiom-img { width: 200px; height: 150px; object-fit: cover; border-radius: 16px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.idiom-meaning { font-size: 1.8em; color: #333; margin: 20px 0; line-height: 1.5; }
+.idiom-example { font-size: 1.4em; color: #666; margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 16px; }
 
 /* SENTENCE BUILD */
 .sentence-area { background: #fff; border-radius: 24px; padding: 40px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
@@ -57,10 +59,11 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .word-chip { padding: 16px 28px; font-size: 1.8em; background: var(--blue); color: #fff; border-radius: 16px; cursor: pointer; transition: transform 0.2s; }
 .word-chip:hover { transform: scale(1.1); }
 .word-chip.used { background: #ccc; cursor: not-allowed; }
-.sentence-result { font-size: 2.5em; min-height: 80px; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; border: 4px dashed #aaa; }
+.sentence-result { font-size: 2.2em; min-height: 80px; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; border: 4px dashed #aaa; line-height: 1.4; }
 .sentence-hint { font-size: 1.3em; color: #888; margin: 20px 0; }
 
 /* WORD LEARN */
+.word-page-bg { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
 .word-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px; margin: 20px 0; }
 .word-card { background: #fff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
 .word-card .char { font-size: 3em; color: var(--purple); }
@@ -72,6 +75,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .quiz-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 600px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
 .quiz-progress { font-size: 1.2em; color: #666; margin-bottom: 20px; }
 .quiz-question { font-size: 2em; color: #333; margin-bottom: 30px; }
+.quiz-img { width: 180px; height: 130px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .quiz-options { display: flex; flex-direction: column; gap: 16px; }
 .quiz-opt { padding: 20px; font-size: 1.5em; background: #f5f5f5; border: 3px solid #ddd; border-radius: 16px; cursor: pointer; transition: all 0.2s; }
 .quiz-opt:hover { background: #f3e5f5; border-color: var(--purple); transform: scale(1.03); }
@@ -110,8 +114,11 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .btn-next:hover { transform: scale(1.05); }
 .btn-back { background: #888; border: none; color: #fff; padding: 16px 40px; font-size: 1.3em; border-radius: 14px; cursor: pointer; }
 
-/* SECTION TITLE */
+/* SECTION BADGE */
 .section-badge { background: var(--purple); color: #fff; padding: 10px 24px; border-radius: 20px; font-size: 1.2em; margin-bottom: 20px; display: inline-block; }
+
+/* IMG THUMB */
+.img-thumb { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -119,8 +126,8 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 <!-- HOME -->
 <div id="home" class="page active">
   <div class="home-card">
-    <div class="slide-img">🐰</div>
-    <h1 class="home-title">動如脫兔</h1>
+    <img src="assets/images/rabbit-run.jpg" class="home-img" alt="兔子跑">
+    <h1 class="home-title">🐰 動如脫兔</h1>
     <p class="home-sub">學習成語 × 認識「動」字詞語</p>
     <input type="text" class="name-input" id="studentName" placeholder="輸入你的名字" maxlength="20">
     <p style="color:#888;margin-bottom:12px;font-size:1.1em;">或者選擇頭像：</p>
@@ -138,7 +145,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
   </div>
 </div>
 
-<!-- SLIDES - INTRO -->
+<!-- SLIDES -->
 <div id="slides" class="page">
   <div class="slide-content" id="slideContent"></div>
   <div class="progress-bar"><div class="progress-fill" id="slideProgress"></div></div>
@@ -152,6 +159,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 <div id="idiomPage" class="page" style="background:linear-gradient(135deg,#f3e5f5,#e1bee7);justify-content:center;">
   <div class="idiom-card">
     <div class="section-badge">📖 成語學習</div>
+    <img src="assets/images/rabbit-escape.jpg" class="idiom-img" alt="兔子逃跑">
     <div class="idiom-big">動如脫兔</div>
     <p style="font-size:1.3em;color:#888;">讀音：Dòng rú tuō tù</p>
     <div class="idiom-meaning">
@@ -172,6 +180,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 <div id="sentencePage" class="page" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);justify-content:center;">
   <div class="sentence-area">
     <div class="section-badge">✍️ 組成句子</div>
+    <img src="assets/images/rabbit-write.jpg" class="idiom-img" alt="兔子寫字" style="width:150px;height:100px;">
     <h2 style="font-size:1.8em;color:#333;margin-bottom:10px;">把詞語拼成句子</h2>
     <p class="sentence-hint">提示：用「🐰 動如脫兔」造句</p>
     <div class="sentence-result" id="sentenceResult">點擊下面詞語拼句子</div>
@@ -185,11 +194,12 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 </div>
 
 <!-- WORD LEARN -->
-<div id="wordPage" class="page" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);justify-content:center;">
+<div id="wordPage" class="page word-page-bg" style="justify-content:center;">
   <div style="max-width:700px;width:100%;text-align:center;">
     <div class="section-badge">📚 認識「動」字詞語</div>
+    <img src="assets/images/rabbit-learn.jpg" class="idiom-img" alt="兔子學習" style="width:200px;height:130px;">
     <div class="word-grid" id="wordGrid"></div>
-    <button class="btn-next" onclick="goTo('quiz')" style="margin-top:20px;">📝 小評估</button>
+    <button class="btn-next" onclick="startQuiz()" style="margin-top:20px;">📝 小評估</button>
     <button class="btn-back" style="margin-top:10px;" onclick="goTo('sentencePage')">⬅️ 返回</button>
   </div>
 </div>
@@ -198,6 +208,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 <div id="quiz" class="page">
   <div class="quiz-card">
     <div class="quiz-progress" id="quizProgress">題目 1/5</div>
+    <img src="assets/images/rabbit-jump.jpg" class="quiz-img" id="quizImg" alt="兔子跳">
     <div class="quiz-question" id="quizQuestion"></div>
     <div class="quiz-options" id="quizOptions"></div>
   </div>
@@ -206,7 +217,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 <!-- DASHBOARD -->
 <div id="dashboard" class="page">
   <div class="dash-card">
-    <div class="slide-img" id="dashAvatar">🧒</div>
+    <img src="assets/images/rabbit-celebrate.jpg" class="home-img" id="dashAvatarImg" alt="慶祝" style="width:150px;height:110px;">
     <h2 class="dash-name" id="dashName"></h2>
     <div class="dash-score" id="dashScore"></div>
     <div class="dash-stars" id="dashStars"></div>
@@ -230,28 +241,38 @@ let state = {
   score: 0,
   quizIndex: 0,
   sentenceWords: [],
-  quiz: []
+  quiz: [],
+  currentSentence: null
+};
+
+// ========== IMAGE PATHS ==========
+const img = {
+  rabbitRun: 'assets/images/rabbit-run.jpg',
+  rabbitEscape: 'assets/images/rabbit-escape.jpg',
+  kidsRun: 'assets/images/kids-run.jpg',
+  rabbitLearn: 'assets/images/rabbit-learn.jpg',
+  rabbitJump: 'assets/images/rabbit-jump.jpg',
+  rabbitWrite: 'assets/images/rabbit-write.jpg',
+  rabbitCelebrate: 'assets/images/rabbit-celebrate.jpg'
 };
 
 // ========== SLIDE DATA ==========
 const introSlides = [
-  { emoji: '🐰', title: '🐰 今日學習：動如脫兔', body: '呢個係一個成語，意思係郁動得好快！' },
-  { emoji: '🐇', title: '🐇 脫兔係咩？', body: '脫兔 = 跑走嘅兔子。兔子跑得好快，一瞬間就走甩喇！' },
-  { emoji: '⚡', title: '⚡ 動如脫兔', body: '所以「動如脫兔」形容郁動非常快，快到好似跑走嘅兔子一樣！' },
-  { emoji: '🏃', title: '🏃 幾時用？', body: '我哋可以形容人郁動好快，例如：佢衝出門口，動如脫兔！' },
-  { emoji: '📖', title: '📖 再睇一次', body: '動如脫兔 = 郁動得快過跑走嘅兔子。今次學識喇！' }
+  { img: 'rabbitRun', emoji: '🐰', title: '🐰 今日學習：動如脫兔', body: '呢個係一個成語，意思係郁動得好快！' },
+  { img: 'rabbitEscape', emoji: '🐇', title: '🐇 脫兔係咩？', body: '脫兔 = 跑走嘅兔子。兔子跑得好快，一瞬間就走甩喇！' },
+  { img: 'kidsRun', emoji: '⚡', title: '⚡ 動如脫兔', body: '所以「動如脫兔」形容郁動非常快，快到好似跑走嘅兔子一樣！' },
+  { img: 'rabbitJump', emoji: '🏃', title: '🏃 幾時用？', body: '我哋可以形容人郁動好快，例如：佢衝出門口，動如脫兔！' },
+  { img: 'rabbitLearn', emoji: '📖', title: '📖 再睇一次', body: '動如脫兔 = 郁動得快過跑走嘅兔子。今次學識喇！' }
 ];
 
-// ========== SENTENCE WORDS ==========
+// ========== SENTENCE DATA ==========
 const sentenceData = {
-  words: ['小明', '跑', '得好快', '動如脫兔', '一樣'],
-  answer: ['小明', '跑', '得好快', '動如脫兔'],
+  words: ['小明', '跑', '得好快', '動如脫兔'],
   sentence: '小明跑得好快，動如脫兔！'
 };
 
 const sentenceEasy = {
   words: ['小華', '走得快', '動如脫兔'],
-  answer: ['小華', '走得快', '動如脫兔'],
   sentence: '小華走得快，動如脫兔！'
 };
 
@@ -298,7 +319,7 @@ function startLearning() {
 function renderSlide() {
   const s = introSlides[state.currentSlide];
   document.getElementById('slideContent').innerHTML = `
-    <div class="slide-img">${s.emoji}</div>
+    <img src="${img[s.img]}" class="slide-img" alt="投影片圖片">
     <h2 class="slide-title">${s.title}</h2>
     <p class="slide-body">${s.body}</p>
   `;
@@ -307,9 +328,9 @@ function renderSlide() {
   document.getElementById('slideNext').classList.toggle('disabled', state.currentSlide === introSlides.length - 1);
   
   if (state.currentSlide === introSlides.length - 1) {
-    document.getElementById('slideNext').style.display = 'none';
+    document.getElementById('slideNext').textContent = '去學習成語 ➡️';
   } else {
-    document.getElementById('slideNext').style.display = '';
+    document.getElementById('slideNext').textContent = '下一頁 ➡️';
   }
 }
 
@@ -317,8 +338,11 @@ function nextSlide() {
   if (state.currentSlide < introSlides.length - 1) {
     state.currentSlide++;
     renderSlide();
+  } else {
+    goTo('idiomPage');
   }
 }
+
 function prevSlide() {
   if (state.currentSlide > 0) {
     state.currentSlide--;
@@ -328,21 +352,11 @@ function prevSlide() {
   }
 }
 
-// Intercept slides nav to add forward button
-document.getElementById('slideNext').addEventListener('click', () => {
-  if (state.currentSlide >= introSlides.length - 1) {
-    goTo('idiomPage');
-  } else {
-    nextSlide();
-  }
-});
-
 // ========== SENTENCE ==========
 function initSentence() {
-  const sd = Math.random() > 0.5 ? sentenceData : sentenceEasy;
-  state.currentSentence = sd;
+  state.currentSentence = Math.random() > 0.5 ? sentenceData : sentenceEasy;
   state.sentenceWords = [];
-  const shuffled = shuffle([...sd.words]);
+  const shuffled = shuffle([...state.currentSentence.words]);
   document.getElementById('sentenceResult').textContent = '點擊下面詞語拼句子';
   document.getElementById('wordBank').innerHTML = shuffled.map((w, i) => `
     <button class="word-chip" onclick="addWord('${w}', this)">${w}</button>
@@ -373,7 +387,7 @@ function clearSentence() {
 
 function checkSentence() {
   const userAnswer = state.sentenceWords.join('');
-  const correct = state.currentSentence.answer.join('');
+  const correct = state.currentSentence.words.join('');
   
   if (userAnswer === correct) {
     showToast('✅ 做得好！句子啱喇！');
@@ -393,7 +407,7 @@ function checkSentence() {
   }
 }
 
-// Intercept sentence page show
+// Intercept page show for sentence
 const origGoTo = goTo;
 goTo = function(id) {
   origGoTo(id);
@@ -420,19 +434,6 @@ function startQuiz() {
   renderQuiz();
   goTo('quiz');
 }
-
-// Intercept word page button
-document.querySelector('[onclick="goTo(\'quiz\')"]')?.addEventListener('click', startQuiz);
-// Use delegation instead
-document.addEventListener('click', (e) => {
-  if (e.target && e.target.getAttribute('onclick')?.includes("goTo('quiz')")) {
-    setTimeout(() => {
-      if (document.getElementById('quiz').classList.contains('active')) {
-        startQuiz();
-      }
-    }, 100);
-  }
-});
 
 function renderQuiz() {
   const q = state.quiz[state.quizIndex];
@@ -474,7 +475,6 @@ function showDashboard() {
   const stars = pct >= 80 ? '⭐⭐⭐⭐⭐' : pct >= 60 ? '⭐⭐⭐⭐' : pct >= 40 ? '⭐⭐⭐' : '⭐';
   const cert = pct >= 80 ? '成語小達人' : pct >= 60 ? '成語學習家' : '勇敢學習者';
   
-  document.getElementById('dashAvatar').textContent = state.avatar;
   document.getElementById('dashName').textContent = state.name + '，你好棒！';
   document.getElementById('dashScore').textContent = pct + '%';
   document.getElementById('dashStars').textContent = stars;
@@ -494,7 +494,7 @@ function printCert() {
   certEl.style.cssText = 'position:fixed;top:0;left:0;width:210mm;height:297mm;background:#fff;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;font-family:Microsoft JhengHei;';
   certEl.innerHTML = `
     <div style="text-align:center;border:8px solid #9C27B0;padding:40px;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f9f9ff;">
-      <div style="font-size:4em;">🏆</div>
+      <img src="${img.rabbitCelebrate}" style="width:150px;height:110px;border-radius:12px;margin-bottom:20px;object-fit:cover;">
       <h1 style="font-size:2em;color:#9C27B0;margin:15px 0;">成語學習證書</h1>
       <h2 style="font-size:2em;color:#333;margin:15px 0;">「${cert}」</h2>
       <p style="font-size:1.5em;margin:20px 0;">頒發給：${state.name}</p>
