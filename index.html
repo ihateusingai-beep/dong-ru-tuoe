@@ -247,7 +247,8 @@ let state = {
   quizIndex: 0,
   sentenceWords: [],
   quiz: [],
-  currentSentence: null
+  currentSentence: null,
+  quizAnswered: false
 };
 
 // ========== IMAGE PATHS ==========
@@ -447,34 +448,39 @@ function renderQuiz() {
   document.getElementById('quizOptions').innerHTML = q.opts.map((opt, i) => `
       <div class="quiz-opt-row">
         <button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>
-        <button class="quiz-tts-btn" onclick="event.stopPropagation();speak('${opt.replace(/'/g, "\\'")}')">🔊</button>
+        <button class="quiz-tts-btn" onclick="speak('${opt.replace(/'/g, "\\'")}'); return false;">🔊</button>
       </div>
     `).join('');
+  state.quizAnswered = false;
 }
 
 function answerQuiz(idx) {
+  if (state.quizAnswered) return;
+  state.quizAnswered = true;
   const q = state.quiz[state.quizIndex];
-  const opts = document.querySelectorAll('.quiz-opt');
-  opts.forEach(o => o.style.pointerEvents = 'none');
+  const rows = document.querySelectorAll('.quiz-opt-row');
   
   if (idx === q.ans) {
-    opts[idx].classList.add('correct');
+    rows[idx].querySelector('.quiz-opt').classList.add('correct');
     state.score++;
     speak('做得好！');
     showConfetti(15);
+    setTimeout(() => {
+      state.quizIndex++;
+      if (state.quizIndex >= state.quiz.length) {
+        showDashboard();
+      } else {
+        renderQuiz();
+      }
+    }, 1500);
   } else {
-    opts[idx].classList.add('wrong');
+    rows[idx].querySelector('.quiz-opt').classList.add('wrong');
     speak('再試一次');
+    setTimeout(() => {
+      rows[idx].querySelector('.quiz-opt').classList.remove('wrong');
+      state.quizAnswered = false;
+    }, 1000);
   }
-  
-  setTimeout(() => {
-    state.quizIndex++;
-    if (state.quizIndex >= state.quiz.length) {
-      showDashboard();
-    } else {
-      renderQuiz();
-    }
-  }, 1200);
 }
 
 // ========== DASHBOARD ==========
