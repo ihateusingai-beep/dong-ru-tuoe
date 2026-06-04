@@ -182,7 +182,13 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
         <div class="hub-desc">睇圖片學意思</div>
         <div class="hub-status" id="hubSlides"></div>
       </div>
-      <div class="hub-card" onclick="goTo('sentencePage');">
+      <div class="hub-card" onclick="goTo('idiomPage');">
+        <div class="hub-icon">📜</div>
+        <div class="hub-title">成語詳解</div>
+        <div class="hub-desc">睇解釋學用法</div>
+        <div class="hub-status" id="hubIdiom"></div>
+      </div>
+      <div class="hub-card" onclick="goTo('sentencePage');initSentence();">
         <div class="hub-icon">✍️</div>
         <div class="hub-title">組成句子</div>
         <div class="hub-desc">拼句子學用詞</div>
@@ -235,7 +241,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
       <p style="margin-bottom:10px;">💡 例子：</p>
       <p style="font-size:1.3em;">佢郁動得好快，<strong style="color:var(--purple);">動如脫兔</strong>！</p>
     </div>
-    <button class="btn-next" onclick="state.completed.sentence=true;updateHubStatus();goTo('sentencePage')">組成句子 ✍️</button>
+    <button class="btn-next" onclick="state.completed.idiom=true;updateHubStatus();goTo('sentencePage')">組成句子 ✍️</button>
     <button class="btn-back" style="margin-top:10px;" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
   </div>
 </div>
@@ -309,8 +315,34 @@ let state = {
   quiz: [],
   currentSentence: null,
   quizAnswered: false,
-  completed: { slides: false, sentence: false, vocab: false, quiz: false }
+  completed: { slides: false, idiom: false, sentence: false, vocab: false, quiz: false }
 };
+
+// Load saved state
+function loadState() {
+  const saved = localStorage.getItem('dongRuTuoe');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      Object.assign(state, parsed);
+      if (state.name) {
+        document.getElementById('studentName').value = state.name;
+        document.getElementById('hubGreeting').textContent = '👋 ' + state.name + '，準備好學習未？';
+      }
+    } catch(e) {}
+  }
+}
+
+// Save state
+function saveState() {
+  const toSave = {
+    name: state.name,
+    avatar: state.avatar,
+    completed: state.completed,
+    score: state.score
+  };
+  localStorage.setItem('dongRuTuoe', JSON.stringify(toSave));
+}
 
 // ========== IMAGE PATHS ==========
 const img = {
@@ -355,11 +387,11 @@ const words = [
 
 // ========== QUIZ ==========
 const quizQuestions = [
-  { q: '🐰「動如脫兔」係咩意思？', opts: ['郁動好慢', '郁動好快', '坐定定'], ans: 1 },
-  { q: '「脫兔」係指咩動物？', opts: ['🐱 貓', '🐰 兔子', '🐶 狗'], ans: 1 },
-  { q: '邊個詞語係描寫速度快？', opts: ['慢慢走', '郁下郁下', '動如脫兔'], ans: 2 },
-  { q: '我話「佢動如脫兔」，係讚佢...？', opts: ['跑得好慢', '跑得好快', '坐唔郁'], ans: 1 },
-  { q: '🎯 邊個句子係啱嘅？', opts: ['小明坐定定，動如脫兔', '小玲跑得好快，動如脫兔', '小志行路慢，動如脫兔'], ans: 1 }
+  { q: '🐰「動如脫兔」係咩意思？', opts: ['郁動好慢', '郁動好快', '坐定定'], ans: 1, img: 'rabbitRun' },
+  { q: '「脫兔」係指咩動物？', opts: ['🐱 貓', '🐰 兔子', '🐶 狗'], ans: 1, img: 'rabbitEscape' },
+  { q: '邊個詞語係描寫速度快？', opts: ['慢慢走', '郁下郁下', '動如脫兔'], ans: 2, img: 'kidsRun' },
+  { q: '我話「佢動如脫兔」，係讚佢...？', opts: ['跑得好慢', '跑得好快', '坐唔郁'], ans: 1, img: 'rabbitJump' },
+  { q: '🎯 邊個句子係啱嘅？', opts: ['小明坐定定，動如脫兔', '小玲跑得好快，動如脫兔', '小志行路慢，動如脫兔'], ans: 1, img: 'rabbitCelebrate' }
 ];
 
 // ========== NAVIGATION ==========
@@ -390,18 +422,22 @@ function updateHubStatus() {
   const locked = '<span class="hub-status locked">🔓 可選</span>';
   
   document.getElementById('hubSlides').innerHTML = state.completed.slides ? done : locked;
+  document.getElementById('hubIdiom').innerHTML = state.completed.idiom ? done : locked;
   document.getElementById('hubSentence').innerHTML = state.completed.sentence ? done : locked;
   document.getElementById('hubVocab').innerHTML = state.completed.vocab ? done : locked;
   document.getElementById('hubQuiz').innerHTML = state.completed.quiz ? done : locked;
+  saveState();
 }
 
 function resetAndReturn() {
-  state.completed = { slides: false, sentence: false, vocab: false, quiz: false };
+  state.completed = { slides: false, idiom: false, sentence: false, vocab: false, quiz: false };
   state.currentSlide = 0;
   state.score = 0;
   state.quizIndex = 0;
   state.quiz = [];
   state.quizAnswered = false;
+  state.sentenceWords = [];
+  saveState();
   goTo('home');
 }
 
@@ -466,6 +502,12 @@ function addWord(word, btn) {
   if (btn.classList.contains('used')) return;
   state.sentenceWords.push(word);
   btn.classList.add('used');
+  btn.style.transform = 'scale(1.2)';
+  btn.style.boxShadow = '0 4px 16px rgba(0,0,0,0.3)';
+  setTimeout(() => {
+    btn.style.transform = '';
+    btn.style.boxShadow = '';
+  }, 200);
   updateSentenceDisplay();
 }
 
@@ -492,6 +534,7 @@ function checkSentence() {
     showToast('✅ 做得好！句子啱喇！');
     speak('做得好！句子啱喇！');
     showConfetti(20);
+    playSound('correct');
     setTimeout(() => {
       initWordLearn();
       goTo('wordPage');
@@ -538,6 +581,7 @@ function startQuiz() {
 function renderQuiz() {
   const q = state.quiz[state.quizIndex];
   document.getElementById('quizProgress').textContent = `題目 ${state.quizIndex + 1}/${state.quiz.length}`;
+  document.getElementById('quizImg').src = img[q.img] || img.rabbitRun;
   document.getElementById('quizQuestion').innerHTML = q.q + ' <button class="quiz-tts-btn" onclick="speak(\'' + q.q.replace(/'/g, "\\'") + '\')">🔊</button>';
   document.getElementById('quizOptions').innerHTML = q.opts.map((opt, i) => `
       <div class="quiz-opt-row">
@@ -560,6 +604,7 @@ function answerQuiz(idx) {
     state.score++;
     speak('做得好！');
     showConfetti(15);
+    playSound('correct');
     setTimeout(() => {
       state.quizIndex++;
       if (state.quizIndex >= state.quiz.length) {
@@ -571,6 +616,7 @@ function answerQuiz(idx) {
   } else {
     rows[idx].querySelector('.quiz-opt').classList.add('wrong');
     speak('再試一次');
+    playSound('wrong');
     setTimeout(() => {
       rows[idx].querySelector('.quiz-opt').classList.remove('wrong');
       state.quizAnswered = false;
@@ -683,6 +729,37 @@ function shuffle(arr) {
   }
   return arr;
 }
+
+// Sound effects
+function playSound(type) {
+  if (!('AudioContext' in window) && !('webkitAudioContext' in window)) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    if (type === 'correct') {
+      osc.frequency.setValueAtTime(523, ctx.currentTime);
+      osc.frequency.setValueAtTime(659, ctx.currentTime + 0.1);
+      osc.frequency.setValueAtTime(784, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.4);
+    } else if (type === 'wrong') {
+      osc.frequency.setValueAtTime(200, ctx.currentTime);
+      osc.frequency.setValueAtTime(150, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.3);
+    }
+  } catch(e) {}
+}
+
+// Init
+loadState();
 </script>
 </body>
 </html>
