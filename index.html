@@ -63,13 +63,17 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .sentence-result { font-size: 2.2em; min-height: 80px; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; border: 4px dashed #aaa; line-height: 1.4; }
 .sentence-hint { font-size: 1.3em; color: #888; margin: 20px 0; }
 
-/* WORD LEARN */
+/* VOCAB LEARN */
 .word-page-bg { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
 .word-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px; margin: 20px 0; }
-.word-card { background: #fff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-.word-card .char { font-size: 3em; color: var(--purple); }
-.word-card .pinyin { font-size: 1.2em; color: #888; }
-.word-card .meaning { font-size: 1.3em; color: #333; margin-top: 10px; }
+.vocab-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.vocab-card:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.vocab-card.vocab-pop { animation: vocabPop 0.3s ease; }
+@keyframes vocabPop { 50% { transform: scale(1.1); } }
+.vocab-img { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
+.vocab-char { font-size: 2.5em; color: var(--purple); font-weight: bold; }
+.vocab-pinyin { font-size: 1.1em; color: #888; margin: 4px 0; }
+.vocab-tts { font-size: 0.9em; color: var(--green); margin-top: 8px; }
 
 /* QUIZ */
 #quiz { background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%); }
@@ -284,10 +288,12 @@ const sentenceEasy = {
 
 // ========== WORD LIST ==========
 const words = [
-  { char: '動', pinyin: 'dùng', meaning: '郁動、活動' },
-  { char: '跑步', pinyin: 'pǎobù', meaning: '用腳跑' },
-  { char: '速度快', pinyin: 'sùdù kuài', meaning: '好快、好高速' },
-  { char: '衝', pinyin: 'chūng', meaning: '向前跑、好快郁' }
+  { char: '跑', pinyin: 'páu', meaning: '用腳快速郁動', img: 'assets/images/vocab/running.jpg' },
+  { char: '跳', pinyin: 'tiu', meaning: '雙腳離地向上', img: 'assets/images/vocab/jumping.jpg' },
+  { char: '飛', pinyin: 'fēi', meaning: '在空中郁動', img: 'assets/images/vocab/flying.jpg' },
+  { char: '游', pinyin: 'yàu', meaning: '喺水入面郁動', img: 'assets/images/vocab/swimming.jpg' },
+  { char: '行', pinyin: 'hàhng', meaning: '用腳走路', img: 'assets/images/vocab/walking.jpg' },
+  { char: '跳舞', pinyin: 'tiu móuh', meaning: '跟住音樂郁動', img: 'assets/images/vocab/dancing.jpg' }
 ];
 
 // ========== QUIZ ==========
@@ -424,10 +430,11 @@ goTo = function(id) {
 function initWordLearn() {
   const grid = document.getElementById('wordGrid');
   grid.innerHTML = words.map(w => `
-    <div class="word-card">
-      <div class="char">${w.char}</div>
-      <div class="pinyin">${w.pinyin}</div>
-      <div class="meaning">${w.meaning}</div>
+    <div class="vocab-card" onclick="speak('${w.char}'); this.classList.add('vocab-pop'); setTimeout(() => this.classList.remove('vocab-pop'), 300);">
+      <img src="${w.img}" class="vocab-img" alt="${w.char}">
+      <div class="vocab-char">${w.char}</div>
+      <div class="vocab-pinyin">${w.pinyin}</div>
+      <div class="vocab-tts">🔊 聽發音</div>
     </div>
   `).join('');
 }
