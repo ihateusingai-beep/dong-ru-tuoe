@@ -523,11 +523,23 @@ function showConfetti(count) {
 
 function speak(text) {
   if ('speechSynthesis' in window) {
+    // Stop any current speech
+    speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'zh-Hant';
-    u.rate = 0.9;
+    // Try Hong Kong Cantonese first, fallback to Traditional Chinese
+    u.lang = 'zh-HK';
+    u.rate = 0.85;
+    // Try to find Cantonese voice
+    const voices = speechSynthesis.getVoices();
+    const cantonese = voices.find(v => v.lang.includes('HK') || v.lang.includes('yue') || v.lang.includes('Cantonese'));
+    if (cantonese) u.voice = cantonese;
     speechSynthesis.speak(u);
   }
+}
+
+// Preload voices
+if ('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
 }
 
 function speakCurrent() {
