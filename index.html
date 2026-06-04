@@ -626,7 +626,7 @@ button:active { transform: scale(0.95) !important; }
 
 <!-- TEACHER PANEL -->
 <div id="teacherPanel">
-  <div class="teacher-title">🎓 老師控制台</div>
+  <div class="teacher-title">🎓 老師控制台 <button onclick="toggleTeacherPanel()" style="float:right;background:none;border:none;color:#fff;font-size:1.5em;cursor:pointer;">✕</button></div>
   <button class="teacher-btn reset" onclick="confirmReset()">🔄 重置進度</button>
   <button class="teacher-btn fullscreen" onclick="toggleFullscreen()">🖥️ 全熒幕</button>
   <button class="teacher-btn hint" onclick="showHint()">💡 顯示提示</button>
@@ -1063,6 +1063,21 @@ function updateGlobalProgress() {
 function toggleTeacherPanel() {
   document.getElementById('teacherPanel').classList.toggle('show');
 }
+
+// Close teacher panel when clicking outside
+document.addEventListener('click', (e) => {
+  const panel = document.getElementById('teacherPanel');
+  const btn = document.getElementById('teacherBtn');
+  if (panel.classList.contains('show') && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.classList.remove('show');
+  }
+  
+  const modal = document.getElementById('settingsModal');
+  const setBtn = document.querySelector('.settings-btn');
+  if (modal && modal.classList.contains('show') && modal && !modal.contains(e.target) && !setBtn.contains(e.target)) {
+    modal.classList.remove('show');
+  }
+});
 
 function confirmReset() {
   if (confirm('確定要重置所有學習進度嗎？')) {
