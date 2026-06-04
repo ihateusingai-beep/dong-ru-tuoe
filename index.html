@@ -318,6 +318,34 @@ button:active { transform: scale(0.95) !important; }
 }
 
 /* VOCAB */
+
+/* EXIT CONFIRM */
+.confirm-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 9999; display: none; align-items: center; justify-content: center; }
+.confirm-overlay.show { display: flex; }
+.confirm-box { background: #fff; border-radius: 24px; padding: 40px; max-width: 500px; text-align: center; }
+.confirm-box h3 { font-size: 2em; color: #333; margin-bottom: 20px; }
+.confirm-box p { font-size: 1.5em; color: #666; margin-bottom: 30px; }
+.confirm-btns { display: flex; gap: 20px; justify-content: center; }
+.confirm-btn { padding: 16px 36px; font-size: 1.4em; border: none; border-radius: 16px; cursor: pointer; min-height: 70px; }
+.confirm-btn.yes { background: #f44336; color: #fff; }
+.confirm-btn.no { background: #888; color: #fff; }
+
+/* HIGHER CONTRAST - gold text on dark */
+.slide-title, .hub-title, .quiz-question { color: #FFD700 !important; }
+
+/* ACTIVITY COMPLETE CELEBRATION */
+.celebration-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9000; display: none; align-items: center; justify-content: center; flex-direction: column; }
+.celebration-overlay.show { display: flex; }
+.celebration-text { font-size: 4em; color: #FFD700; text-align: center; animation: bounce 0.5s ease infinite alternate; }
+.celebration-sub { font-size: 2em; color: #fff; margin-top: 20px; }
+.celebration-btn { margin-top: 40px; min-height: 80px; font-size: 1.5em; background: #4CAF50; color: #fff; border: none; border-radius: 20px; padding: 20px 50px; cursor: pointer; }
+
+/* WRONG ANSWER HINT */
+.quiz-hint-msg { display: none; background: #fff3cd; border: 3px solid #FF9800; border-radius: 16px; padding: 20px; margin-top: 20px; font-size: 1.5em; color: #333; text-align: center; }
+.quiz-hint-msg.show { display: block; }
+
+/* NEXT ACTIVITY PREVIEW */
+.activity-preview { background: rgba(255,215,0,0.15); border: 3px solid #FFD700; border-radius: 16px; padding: 20px; margin: 20px auto; max-width: 700px; text-align: center; font-size: 1.4em; color: #FFD700; }
 </head>
 <body>
 
@@ -325,6 +353,25 @@ button:active { transform: scale(0.95) !important; }
 <div id="globalProgress">
   <span class="progress-text">學習進度：</span>
   <div class="progress-dots" id="progressDots"></div>
+</div>
+
+<!-- EXIT CONFIRM -->
+<div class="confirm-overlay" id="exitConfirm">
+  <div class="confirm-box">
+    <h3>⚠️ 確認離開？</h3>
+    <p>離開會丢失學習進度，你確定嗎？</p>
+    <div class="confirm-btns">
+      <button class="confirm-btn yes" onclick="doExit()">離開</button>
+      <button class="confirm-btn no" onclick="hideExitConfirm()">留低</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVITY COMPLETE CELEBRATION -->
+<div class="celebration-overlay" id="celebrationOverlay">
+  <div class="celebration-text" id="celebrationText">🎉 完成！</div>
+  <div class="celebration-sub" id="celebrationSub">你做得真好！</div>
+  <button class="celebration-btn" onclick="continueToHub()">繼續學習 →</button>
 </div>
 
 <!-- HOME -->
@@ -402,6 +449,7 @@ button:active { transform: scale(0.95) !important; }
     <button class="nav-btn" id="hubBackBtn" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
     <button class="nav-btn" id="slideNext" onclick="nextSlide()">下一頁 ➡️</button>
   </div>
+  <div class="activity-preview">📜 成語故事完成！下一步：📜 成語詳解</div>
 </div>
 
 <!-- IDIOM EXPLAIN -->
@@ -420,7 +468,8 @@ button:active { transform: scale(0.95) !important; }
       <p style="margin-bottom:10px;">💡 例子：</p>
       <p style="font-size:1.3em;">佢郁動得好快，<strong style="color:var(--purple);">動如脫兔</strong>！</p>
     </div>
-    <button class="btn-next" onclick="state.completed.idiom=true;updateHubStatus();goTo('sentencePage')">組成句子 ✍️</button>
+    <button class="btn-next" onclick="state.completed.idiom=true;updateHubStatus();showCelebration('idiom');goTo('sentencePage')">組成句子 ✍️</button>
+    <div class="activity-preview">✍️ 成語詳解完成！下一步：組成句子</div>
     <button class="btn-back" style="margin-top:10px;" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
   </div>
 </div>
@@ -439,6 +488,7 @@ button:active { transform: scale(0.95) !important; }
       <button class="btn-next" onclick="checkSentence()">✅ 確認</button>
     </div>
     <button class="btn-back" style="margin-top:20px;" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
+    <div class="activity-preview">✍️ 句子完成！下一步：📚 詞語學習</div>
   </div>
 </div>
 
@@ -448,7 +498,8 @@ button:active { transform: scale(0.95) !important; }
     <div class="section-badge">📚 認識「動」字詞語</div>
     <img src="assets/images/rabbit-learn.jpg" class="idiom-img" alt="兔子學習" style="width:200px;height:130px;">
     <div class="word-grid" id="wordGrid"></div>
-    <button class="btn-next" onclick="state.completed.vocab=true;updateHubStatus();startQuiz()" style="margin-top:20px;">📝 小評估</button>
+    <button class="btn-next" onclick="state.completed.vocab=true;updateHubStatus();showCelebration('vocab');startQuiz()" style="margin-top:20px;">📝 小評估</button>
+    <div class="activity-preview">📚 詞語完成！下一步：📝 小評估</div>
     <button class="btn-back" style="margin-top:10px;" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
   </div>
 </div>
@@ -460,8 +511,11 @@ button:active { transform: scale(0.95) !important; }
     <img src="assets/images/rabbit-jump.jpg" class="quiz-img" id="quizImg" alt="兔子跳">
     <div class="quiz-question" id="quizQuestion"></div>
     <div class="quiz-options" id="quizOptions"></div>
-    <button class="btn-back" style="margin-top:20px;" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
+    <div class="quiz-hint-msg" id="quizHintMsg">💡 提示：正確答案是 <strong id="correctAnswerText"></strong></div>
+    <button class="btn-back" style="margin-top:10px;" onclick="showQuizHint()">💡 需要提示？</button>
+    <button class="btn-back" style="margin-top:10px;" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
   </div>
+  <div class="activity-preview">📝 準備好接受挑戰！</div>
 </div>
 
 <!-- DASHBOARD -->
@@ -692,6 +746,7 @@ function nextSlide() {
   } else {
     state.completed.slides = true;
     updateHubStatus();
+    showCelebration('slides');
     goTo('idiomPage');
   }
 }
@@ -755,6 +810,9 @@ function checkSentence() {
     showConfetti(20);
     playSound('correct');
     setTimeout(() => {
+      state.completed.sentence = true;
+      updateHubStatus();
+      showCelebration('sentence');
       initWordLearn();
       goTo('wordPage');
     }, 1500);
@@ -793,8 +851,11 @@ function startQuiz() {
   state.quiz = shuffle([...quizQuestions]);
   state.quizIndex = 0;
   state.score = 0;
+  state.quizAnswered = false;
+  state.completed.quiz = false;
   renderQuiz();
   goTo('quiz');
+  setTimeout(autoReadQuiz, 800);
 }
 
 function renderQuiz() {
@@ -1122,6 +1183,65 @@ function playSound(type) {
       osc.stop(ctx.currentTime + 0.3);
     }
   } catch(e) {}
+}
+
+// ========== EXIT CONFIRM ==========
+let exitCallback = null;
+function showExitConfirm(callback) {
+  exitCallback = callback;
+  document.getElementById('exitConfirm').classList.add('show');
+}
+function hideExitConfirm() {
+  document.getElementById('exitConfirm').classList.remove('show');
+  exitCallback = null;
+}
+function doExit() {
+  hideExitConfirm();
+  if (exitCallback) exitCallback();
+}
+
+// ========== ACTIVITY COMPLETE ==========
+const activityNames = {
+  slides: '📖 成語故事',
+  idiom: '📜 成語詳解',
+  sentence: '✍️ 組成句子',
+  vocab: '📚 詞語學習',
+  quiz: '📝 小評估'
+};
+const nextActivity = {
+  slides: '📜 成語詳解',
+  idiom: '✍️ 組成句子',
+  sentence: '📚 詞語學習',
+  vocab: '📝 小評估',
+  quiz: '🏆 完成學習！'
+};
+
+function showCelebration(activity) {
+  document.getElementById('celebrationText').textContent = '🎉 完成！';
+  document.getElementById('celebrationSub').textContent = activityNames[activity] + ' 完成左喇！';
+  document.getElementById('celebrationOverlay').classList.add('show');
+  showConfetti(20);
+  speak(activityNames[activity] + ' 完成左喇！你做得真好！');
+}
+function continueToHub() {
+  document.getElementById('celebrationOverlay').classList.remove('show');
+  updateHubStatus();
+  goTo('hub');
+}
+
+// ========== AUTO READ QUIZ ==========
+function autoReadQuiz() {
+  const q = state.quiz[state.quizIndex];
+  if (q) speak(q.q);
+}
+
+// ========== QUIZ HINT ==========
+function showQuizHint() {
+  const q = state.quiz[state.quizIndex];
+  if (q) {
+    document.getElementById('correctAnswerText').textContent = q.opts[q.ans];
+    document.getElementById('quizHintMsg').classList.add('show');
+  }
 }
 
 // Init
