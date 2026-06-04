@@ -77,7 +77,11 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .quiz-question { font-size: 2em; color: #333; margin-bottom: 30px; }
 .quiz-img { width: 180px; height: 130px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .quiz-options { display: flex; flex-direction: column; gap: 16px; }
-.quiz-opt { padding: 20px; font-size: 1.5em; background: #f5f5f5; border: 3px solid #ddd; border-radius: 16px; cursor: pointer; transition: all 0.2s; }
+.quiz-opt { padding: 20px; font-size: 1.5em; background: #f5f5f5; border: 3px solid #ddd; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.quiz-opt-tts { font-size: 0.7em; opacity: 0.5; }
+.quiz-opt-tts:hover { opacity: 1; }
+.quiz-tts-btn { font-size: 0.7em; background: var(--purple); color: #fff; border: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; margin-left: 8px; vertical-align: middle; }
+.quiz-tts-btn:hover { opacity: 0.8; }
 .quiz-opt:hover { background: #f3e5f5; border-color: var(--purple); transform: scale(1.03); }
 .quiz-opt.correct { background: #e8f5e9; border-color: var(--green); }
 .quiz-opt.wrong { background: #ffebee; border-color: #f44336; animation: shake 0.5s; }
@@ -438,9 +442,9 @@ function startQuiz() {
 function renderQuiz() {
   const q = state.quiz[state.quizIndex];
   document.getElementById('quizProgress').textContent = `題目 ${state.quizIndex + 1}/${state.quiz.length}`;
-  document.getElementById('quizQuestion').textContent = q.q;
+  document.getElementById('quizQuestion').innerHTML = q.q + ' <button class="quiz-tts-btn" onclick="speak(\'' + q.q.replace(/'/g, "\\'") + '\')">🔊</button>';
   document.getElementById('quizOptions').innerHTML = q.opts.map((opt, i) => `
-    <button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>
+    <button class="quiz-opt" onclick="answerQuiz(${i})">${opt} <span class="quiz-opt-tts" onclick="event.stopPropagation();speak(\'' + opt.replace(/'/g, "\\'") + '\')">🔊</span></button>
   `).join('');
 }
 
