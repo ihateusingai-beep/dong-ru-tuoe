@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動如脫兔 - 成語學習</title>
+<style>
+:root {
+  --green: #4CAF50;
+  --blue: #2196F3;
+  --orange: #FF9800;
+  --gold: #FFD700;
+  --purple: #9C27B0;
+  --pink: #E91E63;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-height: 100vh; overflow-x: hidden; }
+
+.page { display: none; min-height: 100vh; padding: 20px; }
+.page.active { display: flex; flex-direction: column; align-items: center; }
+
+/* HOME */
+#home { justify-content: center; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }
+.home-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.home-title { font-size: 2.5em; color: var(--purple); margin-bottom: 10px; }
+.home-sub { font-size: 1.2em; color: #666; margin-bottom: 30px; }
+.avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.avatar-btn { font-size: 2.5em; background: #f0f0f0; border: 4px solid #ddd; border-radius: 16px; padding: 12px; cursor: pointer; transition: all 0.2s; }
+.avatar-btn:hover, .avatar-btn.selected { border-color: var(--purple); background: #f3e5f5; transform: scale(1.1); }
+.name-input { width: 100%; padding: 16px; font-size: 1.3em; border: 3px solid #ddd; border-radius: 12px; margin-bottom: 20px; text-align: center; }
+.start-btn { background: var(--purple); color: #fff; border: none; padding: 20px 60px; font-size: 1.5em; border-radius: 16px; cursor: pointer; width: 100%; transition: transform 0.2s; }
+.start-btn:hover { transform: scale(1.05); }
+
+/* SLIDES */
+#slides { background: linear-gradient(180deg, #4a148c 0%, #7b1fa2 100%); }
+.slide-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 800px; text-align: center; color: #fff; }
+.slide-title { font-size: 3em; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
+.slide-body { font-size: 1.8em; line-height: 1.6; max-width: 700px; }
+.slide-img { font-size: 5em; margin: 20px 0; }
+.slide-nav { display: flex; gap: 16px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
+.nav-btn { background: rgba(255,255,255,0.2); border: 2px solid #fff; color: #fff; padding: 14px 28px; font-size: 1.2em; border-radius: 12px; cursor: pointer; }
+.nav-btn:hover { background: rgba(255,255,255,0.4); }
+.nav-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+.progress-bar { width: 100%; max-width: 600px; height: 12px; background: rgba(255,255,255,0.2); border-radius: 6px; margin-top: 20px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--gold); transition: width 0.4s; }
+
+/* IDIOM EXPLAIN */
+.idiom-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); margin: 20px 0; }
+.idiom-big { font-size: 4em; color: var(--purple); margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+.idiom-meaning { font-size: 2em; color: #333; margin: 20px 0; line-height: 1.5; }
+.idiom-example { font-size: 1.5em; color: #666; margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 16px; }
+
+/* SENTENCE BUILD */
+.sentence-area { background: #fff; border-radius: 24px; padding: 40px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.sentence-title { font-size: 2em; color: var(--blue); margin-bottom: 30px; }
+.word-bank { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 20px 0; }
+.word-chip { padding: 16px 28px; font-size: 1.8em; background: var(--blue); color: #fff; border-radius: 16px; cursor: pointer; transition: transform 0.2s; }
+.word-chip:hover { transform: scale(1.1); }
+.word-chip.used { background: #ccc; cursor: not-allowed; }
+.sentence-result { font-size: 2.5em; min-height: 80px; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; border: 4px dashed #aaa; }
+.sentence-hint { font-size: 1.3em; color: #888; margin: 20px 0; }
+
+/* WORD LEARN */
+.word-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px; margin: 20px 0; }
+.word-card { background: #fff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+.word-card .char { font-size: 3em; color: var(--purple); }
+.word-card .pinyin { font-size: 1.2em; color: #888; }
+.word-card .meaning { font-size: 1.3em; color: #333; margin-top: 10px; }
+
+/* QUIZ */
+#quiz { background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%); }
+.quiz-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 600px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+.quiz-progress { font-size: 1.2em; color: #666; margin-bottom: 20px; }
+.quiz-question { font-size: 2em; color: #333; margin-bottom: 30px; }
+.quiz-options { display: flex; flex-direction: column; gap: 16px; }
+.quiz-opt { padding: 20px; font-size: 1.5em; background: #f5f5f5; border: 3px solid #ddd; border-radius: 16px; cursor: pointer; transition: all 0.2s; }
+.quiz-opt:hover { background: #f3e5f5; border-color: var(--purple); transform: scale(1.03); }
+.quiz-opt.correct { background: #e8f5e9; border-color: var(--green); }
+.quiz-opt.wrong { background: #ffebee; border-color: #f44336; animation: shake 0.5s; }
+
+/* DASHBOARD */
+#dashboard { background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%); justify-content: center; }
+.dash-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 550px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.dash-name { font-size: 2.5em; color: var(--purple); margin-bottom: 10px; }
+.dash-score { font-size: 5em; font-weight: bold; color: var(--gold); margin: 20px 0; }
+.dash-stars { font-size: 3em; margin-bottom: 20px; }
+.dash-cert { font-size: 1.8em; color: #666; margin-bottom: 10px; }
+.cert-title { font-size: 1.5em; color: var(--purple); margin-bottom: 20px; }
+.dash-btns { display: flex; gap: 16px; margin-top: 30px; justify-content: center; flex-wrap: wrap; }
+.dash-btn { padding: 16px 32px; font-size: 1.3em; border: none; border-radius: 12px; cursor: pointer; color: #fff; }
+.btn-print { background: var(--green); }
+.btn-retry { background: var(--purple); }
+
+/* ANIMATIONS */
+.confetti { position: fixed; top: -10px; width: 12px; height: 12px; border-radius: 2px; animation: fall 3s linear forwards; pointer-events: none; z-index: 9999; }
+@keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+@keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+@keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 16px 32px; border-radius: 12px; font-size: 1.3em; z-index: 9998; animation: toastIn 0.3s; }
+@keyframes toastIn { from{transform:translateX(-50%) translateY(20px);opacity:0} to{transform:translateX(-50%) translateY(0);opacity:1} }
+
+.tts-btn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--purple); border-radius: 50%; border: none; color: #fff; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 100; }
+.tts-btn:hover { transform: scale(1.1); }
+
+/* NAV BTNS */
+.nav-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
+.btn-next { background: var(--green); border: none; color: #fff; padding: 16px 40px; font-size: 1.3em; border-radius: 14px; cursor: pointer; }
+.btn-next:hover { transform: scale(1.05); }
+.btn-back { background: #888; border: none; color: #fff; padding: 16px 40px; font-size: 1.3em; border-radius: 14px; cursor: pointer; }
+
+/* SECTION TITLE */
+.section-badge { background: var(--purple); color: #fff; padding: 10px 24px; border-radius: 20px; font-size: 1.2em; margin-bottom: 20px; display: inline-block; }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="home-card">
+    <div class="slide-img">🐰</div>
+    <h1 class="home-title">動如脫兔</h1>
+    <p class="home-sub">學習成語 × 認識「動」字詞語</p>
+    <input type="text" class="name-input" id="studentName" placeholder="輸入你的名字" maxlength="20">
+    <p style="color:#888;margin-bottom:12px;font-size:1.1em;">或者選擇頭像：</p>
+    <div class="avatar-grid">
+      <button class="avatar-btn" data-avatar="🧒">🧒</button>
+      <button class="avatar-btn" data-avatar="👧">👧</button>
+      <button class="avatar-btn" data-avatar="👦">👦</button>
+      <button class="avatar-btn" data-avatar="🐰">🐰</button>
+      <button class="avatar-btn" data-avatar="⚡">⚡</button>
+      <button class="avatar-btn" data-avatar="🌟">🌟</button>
+      <button class="avatar-btn" data-avatar="🏃">🏃</button>
+      <button class="avatar-btn" data-avatar="🎯">🎯</button>
+    </div>
+    <button class="start-btn" onclick="startLearning()">開始學習 🚀</button>
+  </div>
+</div>
+
+<!-- SLIDES - INTRO -->
+<div id="slides" class="page">
+  <div class="slide-content" id="slideContent"></div>
+  <div class="progress-bar"><div class="progress-fill" id="slideProgress"></div></div>
+  <div class="slide-nav">
+    <button class="nav-btn" id="slidePrev" onclick="prevSlide()">⬅️ 上一頁</button>
+    <button class="nav-btn" id="slideNext" onclick="nextSlide()">下一頁 ➡️</button>
+  </div>
+</div>
+
+<!-- IDIOM EXPLAIN -->
+<div id="idiomPage" class="page" style="background:linear-gradient(135deg,#f3e5f5,#e1bee7);justify-content:center;">
+  <div class="idiom-card">
+    <div class="section-badge">📖 成語學習</div>
+    <div class="idiom-big">動如脫兔</div>
+    <p style="font-size:1.3em;color:#888;">讀音：Dòng rú tuō tù</p>
+    <div class="idiom-meaning">
+      <p style="margin:10px 0;">🐰 動 = 郁動、走</p>
+      <p style="margin:10px 0;">🐇 脫兔 = 跑走嘅兔子</p>
+      <p style="margin:20px 0;font-size:1.5em;color:var(--purple);">➡️ 郁動得快過跑走嘅兔子！</p>
+    </div>
+    <div class="idiom-example">
+      <p style="margin-bottom:10px;">💡 例子：</p>
+      <p style="font-size:1.3em;">佢郁動得好快，<strong style="color:var(--purple);">動如脫兔</strong>！</p>
+    </div>
+    <button class="btn-next" onclick="goTo('sentencePage')">組成句子 ✍️</button>
+    <button class="btn-back" style="margin-top:10px;" onclick="goTo('slides')">⬅️ 返回</button>
+  </div>
+</div>
+
+<!-- SENTENCE BUILD -->
+<div id="sentencePage" class="page" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);justify-content:center;">
+  <div class="sentence-area">
+    <div class="section-badge">✍️ 組成句子</div>
+    <h2 style="font-size:1.8em;color:#333;margin-bottom:10px;">把詞語拼成句子</h2>
+    <p class="sentence-hint">提示：用「🐰 動如脫兔」造句</p>
+    <div class="sentence-result" id="sentenceResult">點擊下面詞語拼句子</div>
+    <div class="word-bank" id="wordBank"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="clearSentence()">🗑️ 清空</button>
+      <button class="btn-next" onclick="checkSentence()">✅ 確認</button>
+    </div>
+    <button class="btn-back" style="margin-top:20px;" onclick="goTo('idiomPage')">⬅️ 返回</button>
+  </div>
+</div>
+
+<!-- WORD LEARN -->
+<div id="wordPage" class="page" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);justify-content:center;">
+  <div style="max-width:700px;width:100%;text-align:center;">
+    <div class="section-badge">📚 認識「動」字詞語</div>
+    <div class="word-grid" id="wordGrid"></div>
+    <button class="btn-next" onclick="goTo('quiz')" style="margin-top:20px;">📝 小評估</button>
+    <button class="btn-back" style="margin-top:10px;" onclick="goTo('sentencePage')">⬅️ 返回</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="page">
+  <div class="quiz-card">
+    <div class="quiz-progress" id="quizProgress">題目 1/5</div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="page">
+  <div class="dash-card">
+    <div class="slide-img" id="dashAvatar">🧒</div>
+    <h2 class="dash-name" id="dashName"></h2>
+    <div class="dash-score" id="dashScore"></div>
+    <div class="dash-stars" id="dashStars"></div>
+    <div class="cert-title" id="certTitle"></div>
+    <p class="dash-cert" id="dashCert"></p>
+    <div class="dash-btns">
+      <button class="dash-btn btn-print" onclick="printCert()">🖨️ 打印證書</button>
+      <button class="dash-btn btn-retry" onclick="goTo('home')">🔄 再玩一次</button>
+    </div>
+  </div>
+</div>
+
+<button class="tts-btn" onclick="speakCurrent()" title="🔊 朗讀">🔊</button>
+
+<script>
+// ========== STATE ==========
+let state = {
+  name: '',
+  avatar: '🧒',
+  currentSlide: 0,
+  score: 0,
+  quizIndex: 0,
+  sentenceWords: [],
+  quiz: []
+};
+
+// ========== SLIDE DATA ==========
+const introSlides = [
+  { emoji: '🐰', title: '🐰 今日學習：動如脫兔', body: '呢個係一個成語，意思係郁動得好快！' },
+  { emoji: '🐇', title: '🐇 脫兔係咩？', body: '脫兔 = 跑走嘅兔子。兔子跑得好快，一瞬間就走甩喇！' },
+  { emoji: '⚡', title: '⚡ 動如脫兔', body: '所以「動如脫兔」形容郁動非常快，快到好似跑走嘅兔子一樣！' },
+  { emoji: '🏃', title: '🏃 幾時用？', body: '我哋可以形容人郁動好快，例如：佢衝出門口，動如脫兔！' },
+  { emoji: '📖', title: '📖 再睇一次', body: '動如脫兔 = 郁動得快過跑走嘅兔子。今次學識喇！' }
+];
+
+// ========== SENTENCE WORDS ==========
+const sentenceData = {
+  words: ['小明', '跑', '得好快', '動如脫兔', '一樣'],
+  answer: ['小明', '跑', '得好快', '動如脫兔'],
+  sentence: '小明跑得好快，動如脫兔！'
+};
+
+const sentenceEasy = {
+  words: ['小華', '走得快', '動如脫兔'],
+  answer: ['小華', '走得快', '動如脫兔'],
+  sentence: '小華走得快，動如脫兔！'
+};
+
+// ========== WORD LIST ==========
+const words = [
+  { char: '動', pinyin: 'dùng', meaning: '郁動、活動' },
+  { char: '跑步', pinyin: 'pǎobù', meaning: '用腳跑' },
+  { char: '速度快', pinyin: 'sùdù kuài', meaning: '好快、好高速' },
+  { char: '衝', pinyin: 'chūng', meaning: '向前跑、好快郁' }
+];
+
+// ========== QUIZ ==========
+const quizQuestions = [
+  { q: '🐰「動如脫兔」係咩意思？', opts: ['郁動好慢', '郁動好快', '坐定定'], ans: 1 },
+  { q: '「脫兔」係指咩動物？', opts: ['🐱 貓', '🐰 兔子', '🐶 狗'], ans: 1 },
+  { q: '邊個詞語係描寫速度快？', opts: ['慢慢走', '郁下郁下', '動如脫兔'], ans: 2 },
+  { q: '我話「佢動如脫兔」，係讚佢...？', opts: ['跑得好慢', '跑得好快', '坐唔郁'], ans: 1 },
+  { q: '🎯 邊個句子係啱嘅？', opts: ['小明坐定定，動如脫兔', '小玲跑得好快，動如脫兔', '小志行路慢，動如脫兔'], ans: 1 }
+];
+
+// ========== NAVIGATION ==========
+function goTo(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ========== HOME ==========
+document.querySelectorAll('.avatar-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.avatar-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.avatar = btn.dataset.avatar;
+  });
+});
+
+function startLearning() {
+  state.name = document.getElementById('studentName').value.trim() || '同學';
+  state.currentSlide = 0;
+  renderSlide();
+  goTo('slides');
+}
+
+// ========== SLIDES ==========
+function renderSlide() {
+  const s = introSlides[state.currentSlide];
+  document.getElementById('slideContent').innerHTML = `
+    <div class="slide-img">${s.emoji}</div>
+    <h2 class="slide-title">${s.title}</h2>
+    <p class="slide-body">${s.body}</p>
+  `;
+  document.getElementById('slideProgress').style.width = ((state.currentSlide + 1) / introSlides.length * 100) + '%';
+  document.getElementById('slidePrev').classList.toggle('disabled', state.currentSlide === 0);
+  document.getElementById('slideNext').classList.toggle('disabled', state.currentSlide === introSlides.length - 1);
+  
+  if (state.currentSlide === introSlides.length - 1) {
+    document.getElementById('slideNext').style.display = 'none';
+  } else {
+    document.getElementById('slideNext').style.display = '';
+  }
+}
+
+function nextSlide() {
+  if (state.currentSlide < introSlides.length - 1) {
+    state.currentSlide++;
+    renderSlide();
+  }
+}
+function prevSlide() {
+  if (state.currentSlide > 0) {
+    state.currentSlide--;
+    renderSlide();
+  } else {
+    goTo('home');
+  }
+}
+
+// Intercept slides nav to add forward button
+document.getElementById('slideNext').addEventListener('click', () => {
+  if (state.currentSlide >= introSlides.length - 1) {
+    goTo('idiomPage');
+  } else {
+    nextSlide();
+  }
+});
+
+// ========== SENTENCE ==========
+function initSentence() {
+  const sd = Math.random() > 0.5 ? sentenceData : sentenceEasy;
+  state.currentSentence = sd;
+  state.sentenceWords = [];
+  const shuffled = shuffle([...sd.words]);
+  document.getElementById('sentenceResult').textContent = '點擊下面詞語拼句子';
+  document.getElementById('wordBank').innerHTML = shuffled.map((w, i) => `
+    <button class="word-chip" onclick="addWord('${w}', this)">${w}</button>
+  `).join('');
+}
+
+function addWord(word, btn) {
+  if (btn.classList.contains('used')) return;
+  state.sentenceWords.push(word);
+  btn.classList.add('used');
+  updateSentenceDisplay();
+}
+
+function updateSentenceDisplay() {
+  const result = document.getElementById('sentenceResult');
+  if (state.sentenceWords.length === 0) {
+    result.textContent = '點擊下面詞語拼句子';
+  } else {
+    result.textContent = state.sentenceWords.join('') + '。';
+  }
+}
+
+function clearSentence() {
+  state.sentenceWords = [];
+  document.querySelectorAll('.word-chip').forEach(b => b.classList.remove('used'));
+  updateSentenceDisplay();
+}
+
+function checkSentence() {
+  const userAnswer = state.sentenceWords.join('');
+  const correct = state.currentSentence.answer.join('');
+  
+  if (userAnswer === correct) {
+    showToast('✅ 做得好！句子啱喇！');
+    speak('做得好！句子啱喇！');
+    showConfetti(20);
+    setTimeout(() => {
+      initWordLearn();
+      goTo('wordPage');
+    }, 1500);
+  } else {
+    showToast('❌ 再試一次！');
+    speak('再試一次');
+    document.getElementById('sentenceResult').style.animation = 'shake 0.5s';
+    setTimeout(() => {
+      document.getElementById('sentenceResult').style.animation = '';
+    }, 500);
+  }
+}
+
+// Intercept sentence page show
+const origGoTo = goTo;
+goTo = function(id) {
+  origGoTo(id);
+  if (id === 'sentencePage') initSentence();
+};
+
+// ========== WORD LEARN ==========
+function initWordLearn() {
+  const grid = document.getElementById('wordGrid');
+  grid.innerHTML = words.map(w => `
+    <div class="word-card">
+      <div class="char">${w.char}</div>
+      <div class="pinyin">${w.pinyin}</div>
+      <div class="meaning">${w.meaning}</div>
+    </div>
+  `).join('');
+}
+
+// ========== QUIZ ==========
+function startQuiz() {
+  state.quiz = shuffle([...quizQuestions]);
+  state.quizIndex = 0;
+  state.score = 0;
+  renderQuiz();
+  goTo('quiz');
+}
+
+// Intercept word page button
+document.querySelector('[onclick="goTo(\'quiz\')"]')?.addEventListener('click', startQuiz);
+// Use delegation instead
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.getAttribute('onclick')?.includes("goTo('quiz')")) {
+    setTimeout(() => {
+      if (document.getElementById('quiz').classList.contains('active')) {
+        startQuiz();
+      }
+    }, 100);
+  }
+});
+
+function renderQuiz() {
+  const q = state.quiz[state.quizIndex];
+  document.getElementById('quizProgress').textContent = `題目 ${state.quizIndex + 1}/${state.quiz.length}`;
+  document.getElementById('quizQuestion').textContent = q.q;
+  document.getElementById('quizOptions').innerHTML = q.opts.map((opt, i) => `
+    <button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>
+  `).join('');
+}
+
+function answerQuiz(idx) {
+  const q = state.quiz[state.quizIndex];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  
+  if (idx === q.ans) {
+    opts[idx].classList.add('correct');
+    state.score++;
+    speak('做得好！');
+    showConfetti(15);
+  } else {
+    opts[idx].classList.add('wrong');
+    speak('再試一次');
+  }
+  
+  setTimeout(() => {
+    state.quizIndex++;
+    if (state.quizIndex >= state.quiz.length) {
+      showDashboard();
+    } else {
+      renderQuiz();
+    }
+  }, 1200);
+}
+
+// ========== DASHBOARD ==========
+function showDashboard() {
+  const pct = Math.round((state.score / state.quiz.length) * 100);
+  const stars = pct >= 80 ? '⭐⭐⭐⭐⭐' : pct >= 60 ? '⭐⭐⭐⭐' : pct >= 40 ? '⭐⭐⭐' : '⭐';
+  const cert = pct >= 80 ? '成語小達人' : pct >= 60 ? '成語學習家' : '勇敢學習者';
+  
+  document.getElementById('dashAvatar').textContent = state.avatar;
+  document.getElementById('dashName').textContent = state.name + '，你好棒！';
+  document.getElementById('dashScore').textContent = pct + '%';
+  document.getElementById('dashStars').textContent = stars;
+  document.getElementById('certTitle').textContent = '🥇 ' + cert;
+  document.getElementById('dashCert').textContent = '你學識「動如脫兔」喇！';
+  
+  goTo('dashboard');
+  showConfetti(50);
+  speak('恭喜你完成學習！');
+}
+
+function printCert() {
+  const pct = Math.round((state.score / state.quiz.length) * 100);
+  const cert = pct >= 80 ? '成語小達人' : pct >= 60 ? '成語學習家' : '勇敢學習者';
+  
+  const certEl = document.createElement('div');
+  certEl.style.cssText = 'position:fixed;top:0;left:0;width:210mm;height:297mm;background:#fff;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;font-family:Microsoft JhengHei;';
+  certEl.innerHTML = `
+    <div style="text-align:center;border:8px solid #9C27B0;padding:40px;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f9f9ff;">
+      <div style="font-size:4em;">🏆</div>
+      <h1 style="font-size:2em;color:#9C27B0;margin:15px 0;">成語學習證書</h1>
+      <h2 style="font-size:2em;color:#333;margin:15px 0;">「${cert}」</h2>
+      <p style="font-size:1.5em;margin:20px 0;">頒發給：${state.name}</p>
+      <p style="font-size:1.2em;color:#666;">學習成語：動如脫兔</p>
+      <p style="font-size:1.2em;color:#888;margin-top:30px;">日期：${new Date().toLocaleDateString('zh-HK')}</p>
+    </div>
+  `;
+  document.body.appendChild(certEl);
+  window.print();
+  setTimeout(() => certEl.remove(), 100);
+}
+
+// ========== EFFECTS ==========
+function showConfetti(count) {
+  const colors = ['#9C27B0','#E91E63','#4CAF50','#2196F3','#FF9800','#FFD700'];
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = (2 + Math.random() * 2) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+}
+
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-Hant';
+    u.rate = 0.9;
+    speechSynthesis.speak(u);
+  }
+}
+
+function speakCurrent() {
+  const page = document.querySelector('.page.active').id;
+  if (page === 'slides') {
+    const s = introSlides[state.currentSlide];
+    speak(s.title + '。' + s.body);
+  } else if (page === 'quiz' && state.quiz && state.quiz[state.quizIndex]) {
+    speak(state.quiz[state.quizIndex].q);
+  } else if (page === 'idiomPage') {
+    speak('動如脫兔。郁動得好快，快過跑走嘅兔子。');
+  } else if (page === 'sentencePage') {
+    speak(state.sentenceWords.join('') || '點擊下面詞語拼句子');
+  }
+}
+
+function showToast(text) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = text;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+</script>
+</body>
+</html>
