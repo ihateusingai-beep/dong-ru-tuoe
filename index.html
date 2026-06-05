@@ -302,6 +302,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 </div>
 
 <button class="tts-btn" onclick="speakCurrent()" title="🔊 朗讀">🔊</button>
+<button id="autoTTSBtn" onclick="toggleAutoTTS()" title="🔇 自動朗讀" style="position:fixed;bottom:90px;right:20px;width:50px;height:50px;background:#4CAF50;border-radius:50%;border:none;color:#fff;font-size:1.2em;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:100;">🔊</button>
 
 <script>
 // ========== STATE ==========
@@ -315,7 +316,8 @@ let state = {
   quiz: [],
   currentSentence: null,
   quizAnswered: false,
-  completed: { slides: false, sentence: false, vocab: false, quiz: false }
+  autoTTS: true,  // Auto-read quiz questions
+  completed: { slides: false, idiom: false, sentence: false, vocab: false, quiz: false }
 };
 
 // ========== IMAGE PATHS ==========
@@ -537,8 +539,10 @@ function startQuiz() {
   state.quiz = shuffle([...quizQuestions]);
   state.quizIndex = 0;
   state.score = 0;
+  state.completed.quiz = false;
   renderQuiz();
   goTo('quiz');
+  if (state.autoTTS) setTimeout(() => speak(state.quiz[0].q), 800);
 }
 
 function renderQuiz() {
@@ -680,6 +684,14 @@ function showToast(text) {
   t.textContent = text;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 2000);
+}
+
+function toggleAutoTTS() {
+  state.autoTTS = !state.autoTTS;
+  const btn = document.getElementById('autoTTSBtn');
+  btn.textContent = state.autoTTS ? '🔊' : '🔇';
+  btn.style.background = state.autoTTS ? '#4CAF50' : '#888';
+  showToast(state.autoTTS ? '自動朗讀：開' : '自動朗讀：關');
 }
 
 function shuffle(arr) {
