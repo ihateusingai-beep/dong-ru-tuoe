@@ -241,7 +241,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
       <p style="margin-bottom:10px;">💡 例子：</p>
       <p style="font-size:1.3em;">佢郁動得好快，<strong style="color:var(--purple);">動如脫兔</strong>！</p>
     </div>
-    <button class="btn-next" onclick="state.completed.sentence=true;updateHubStatus();goTo('sentencePage')">組成句子 ✍️</button>
+    <button class="btn-next" onclick="state.completed.idiom=true;updateHubStatus();showCelebration('idiom');goTo('sentencePage')">組成句子 ✍️</button>
     <button class="btn-back" style="margin-top:10px;" onclick="updateHubStatus();goTo('hub')">🏠 返回中心</button>
   </div>
 </div>
@@ -398,13 +398,14 @@ function updateHubStatus() {
   const locked = '<span class="hub-status locked">🔓 可選</span>';
   
   document.getElementById('hubSlides').innerHTML = state.completed.slides ? done : locked;
+  document.getElementById('hubIdiom').innerHTML = state.completed.idiom ? done : locked;
   document.getElementById('hubSentence').innerHTML = state.completed.sentence ? done : locked;
   document.getElementById('hubVocab').innerHTML = state.completed.vocab ? done : locked;
   document.getElementById('hubQuiz').innerHTML = state.completed.quiz ? done : locked;
 }
 
 function resetAndReturn() {
-  state.completed = { slides: false, sentence: false, vocab: false, quiz: false };
+  state.completed = { slides: false, idiom: false, sentence: false, vocab: false, quiz: false };
   state.currentSlide = 0;
   state.score = 0;
   state.quizIndex = 0;
