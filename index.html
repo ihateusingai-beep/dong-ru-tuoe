@@ -29,7 +29,7 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 /* HOME */
 #home { justify-content: center; background: #f7f7f7; }
 .home-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-.home-title { font-size: 2.5em; color: var(--purple); margin-bottom: 10px; }
+.home-title { font-size: 2.8em; font-weight: 800; color: #3c3c3c; margin-bottom: 8px; }
 .home-sub { font-size: 1.2em; color: #666; margin-bottom: 30px; }
 .home-img { width: 180px; height: 180px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
 .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
@@ -48,7 +48,7 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 .hub-title { font-size: 1.5em; font-weight: bold; margin-bottom: 8px; }
 .hub-desc { font-size: 1.1em; opacity: 0.8; margin-bottom: 12px; }
 .hub-status { font-size: 0.95em; padding: 6px 14px; border-radius: 20px; display: inline-block; }
-.hub-status.done { background: var(--green); color: #fff; }
+.hub-status.done { background: #58cc02; color: #fff; font-weight: 700; }
 .hub-status.locked { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); }
 .hub-nav { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .hub-nav-btn { background: rgba(255,255,255,0.2); border: 2px solid #fff; color: #fff; padding: 14px 28px; font-size: 1.1em; border-radius: 12px; cursor: pointer; }
@@ -70,7 +70,7 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 
 /* IDIOM EXPLAIN */
 .idiom-card { background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; padding: 32px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 2px 0 #d7d7d7; margin: 20px 0; }
-.idiom-big { font-size: 4em; color: var(--purple); margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+.idiom-big { font-size: 3.2em; font-weight: 800; color: #58cc02; margin: 16px 0; }
 .idiom-img { width: 200px; height: 150px; object-fit: cover; border-radius: 16px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .idiom-meaning { font-size: 1.8em; color: #333; margin: 20px 0; line-height: 1.5; }
 .idiom-example { font-size: 1.4em; color: #666; margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 16px; }
@@ -79,8 +79,8 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 .sentence-area { background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; padding: 32px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 2px 0 #d7d7d7; }
 .sentence-title { font-size: 2em; color: var(--blue); margin-bottom: 30px; }
 .word-bank { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 20px 0; }
-.word-chip { padding: 16px 28px; font-size: 1.8em; background: var(--blue); color: #fff; border-radius: 16px; cursor: pointer; transition: transform 0.2s; }
-.word-chip:hover { transform: scale(1.1); }
+.word-chip { padding: 14px 24px; font-size: 1.6em; font-weight: 700; background: #58cc02; color: #fff; border-radius: 16px; cursor: pointer; transition: all 0.2s; border-bottom: 4px solid #58a700; }
+.word-chip:hover { background: #89e219; transform: translateY(-1px); }
 .word-chip.used { background: #ccc; cursor: not-allowed; }
 .sentence-result { font-size: 2.2em; min-height: 80px; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; border: 4px dashed #aaa; line-height: 1.4; }
 .sentence-hint { font-size: 1.3em; color: #888; margin: 20px 0; }
@@ -88,8 +88,8 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 /* VOCAB LEARN */
 .word-page-bg { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
 .word-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px; margin: 20px 0; }
-.vocab-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-.vocab-card:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.vocab-card { background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 2px 0 #d7d7d7; cursor: pointer; transition: all 0.2s; }
+.vocab-card:hover { transform: translateY(-2px); box-shadow: 0 4px 0 #d7d7d7; border-color: #afafaf; }
 .vocab-card.vocab-pop { animation: vocabPop 0.3s ease; }
 @keyframes vocabPop { 50% { transform: scale(1.1); } }
 .vocab-img { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
@@ -100,7 +100,7 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 /* QUIZ */
 #quiz { background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%); }
 .quiz-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 600px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
-.quiz-progress { font-size: 1.2em; color: #666; margin-bottom: 20px; }
+.quiz-progress { font-size: 1.1em; color: #777777; margin-bottom: 16px; font-weight: 600; }
 .quiz-question { font-size: 2em; color: #333; margin-bottom: 30px; }
 .quiz-img { width: 180px; height: 130px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .quiz-options { display: flex; flex-direction: column; gap: 16px; }
