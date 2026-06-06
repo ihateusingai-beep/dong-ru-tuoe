@@ -6,37 +6,44 @@
 <title>動如脫兔 - 成語學習</title>
 <style>
 :root {
-  --green: #4CAF50;
-  --blue: #2196F3;
-  --orange: #FF9800;
-  --gold: #FFD700;
-  --purple: #9C27B0;
-  --pink: #E91E63;
+  --owl-green: #58cc02;
+  --owl-green-deep: #58a700;
+  --owl-green-light: #89e219;
+  --owl-green-pale: #dbf8c5;
+  --streak-orange: #ff9600;
+  --gem-pink: #ce82ff;
+  --eel-blue: #1cb0f6;
+  --cardinal-red: #ff4b4b;
+  --snow: #ffffff;
+  --eel: #f7f7f7;
+  --swan: #e5e5e5;
+  --wolf: #777777;
+  --eel-black: #3c3c3c;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-height: 100vh; overflow-x: hidden; }
+body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7f7f7; min-height: 100vh; overflow-x: hidden; color: #3c3c3c; }
 
 .page { display: none; min-height: 100vh; padding: 20px; }
 .page.active { display: flex; flex-direction: column; align-items: center; }
 
 /* HOME */
-#home { justify-content: center; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }
+#home { justify-content: center; background: #f7f7f7; }
 .home-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
 .home-title { font-size: 2.5em; color: var(--purple); margin-bottom: 10px; }
 .home-sub { font-size: 1.2em; color: #666; margin-bottom: 30px; }
 .home-img { width: 180px; height: 180px; object-fit: cover; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
 .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
 .quiz-opt-row { display: flex; align-items: center; gap: 12px; }
-.quiz-opt { padding: 20px; font-size: 1.5em; background: #f5f5f5; border: 3px solid #ddd; border-radius: 16px; cursor: pointer; transition: all 0.2s; flex: 1; text-align: left; }
+.quiz-opt { padding: 18px 20px; font-size: 1.4em; background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; }
 .avatar-btn:hover, .avatar-btn.selected { border-color: var(--purple); background: #f3e5f5; transform: scale(1.1); }
 .name-input { width: 100%; padding: 16px; font-size: 1.3em; border: 3px solid #ddd; border-radius: 12px; margin-bottom: 20px; text-align: center; }
-.start-btn { background: var(--purple); color: #fff; border: none; padding: 20px 60px; font-size: 1.5em; border-radius: 16px; cursor: pointer; width: 100%; transition: transform 0.2s; }
-.start-btn:hover { transform: scale(1.05); }
+.start-btn { background: #58cc02; color: #fff; border: none; padding: 18px 48px; font-size: 1.4em; font-weight: 800; border-radius: 16px; cursor: pointer; width: 100%; transition: all 0.2s; border-bottom: 4px solid #58a700; }
+.start-btn:hover { background: #89e219; transform: translateY(-1px); }
 
 /* HUB */
 .hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
-.hub-card { background: rgba(255,255,255,0.15); border: 3px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px 20px; cursor: pointer; transition: all 0.3s; }
-.hub-card:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); border-color: rgba(255,255,255,0.6); }
+.hub-card { background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; padding: 24px 20px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 0 #d7d7d7; }
+.hub-card:hover { transform: translateY(-2px); box-shadow: 0 4px 0 #d7d7d7; border-color: #afafaf; }
 .hub-icon { font-size: 3em; margin-bottom: 10px; }
 .hub-title { font-size: 1.5em; font-weight: bold; margin-bottom: 8px; }
 .hub-desc { font-size: 1.1em; opacity: 0.8; margin-bottom: 12px; }
@@ -55,21 +62,21 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .slide-title { font-size: 2.8em; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
 .slide-body { font-size: 1.6em; line-height: 1.6; max-width: 700px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 16px; }
 .slide-nav { display: flex; gap: 16px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
-.nav-btn { background: rgba(255,255,255,0.2); border: 2px solid #fff; color: #fff; padding: 14px 28px; font-size: 1.2em; border-radius: 12px; cursor: pointer; }
-.nav-btn:hover { background: rgba(255,255,255,0.4); }
+.nav-btn { background: #ffffff; border: 2px solid #e5e5e5; color: #777777; padding: 14px 28px; font-size: 1.1em; font-weight: 700; border-radius: 16px; cursor: pointer; border-bottom: 4px solid #e5e5e5; }
+.nav-btn:hover { color: #3c3c3c; border-color: #afafaf; transform: translateY(-1px); }
 .nav-btn.disabled { opacity: 0.3; cursor: not-allowed; }
 .progress-bar { width: 100%; max-width: 600px; height: 12px; background: rgba(255,255,255,0.2); border-radius: 6px; margin-top: 20px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--gold); transition: width 0.4s; }
 
 /* IDIOM EXPLAIN */
-.idiom-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); margin: 20px 0; }
+.idiom-card { background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; padding: 32px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 2px 0 #d7d7d7; margin: 20px 0; }
 .idiom-big { font-size: 4em; color: var(--purple); margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
 .idiom-img { width: 200px; height: 150px; object-fit: cover; border-radius: 16px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .idiom-meaning { font-size: 1.8em; color: #333; margin: 20px 0; line-height: 1.5; }
 .idiom-example { font-size: 1.4em; color: #666; margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 16px; }
 
 /* SENTENCE BUILD */
-.sentence-area { background: #fff; border-radius: 24px; padding: 40px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.sentence-area { background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; padding: 32px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 2px 0 #d7d7d7; }
 .sentence-title { font-size: 2em; color: var(--blue); margin-bottom: 30px; }
 .word-bank { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 20px 0; }
 .word-chip { padding: 16px 28px; font-size: 1.8em; background: var(--blue); color: #fff; border-radius: 16px; cursor: pointer; transition: transform 0.2s; }
@@ -103,7 +110,7 @@ body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f0e8; min-h
 .quiz-opt-label { font-size: 1.3em; font-weight: bold; color: var(--purple); width: 40px; text-align: center; }
 .quiz-tts-btn { font-size: 0.7em; background: var(--purple); color: #fff; border: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; margin-left: 8px; vertical-align: middle; }
 .quiz-tts-btn:hover { opacity: 0.8; }
-.quiz-opt:hover { background: #f3e5f5; border-color: var(--purple); transform: scale(1.03); }
+.quiz-opt:hover { border-color: #afafaf; transform: translateY(-1px); box-shadow: 0 2px 0 #d7d7d7; }
 .quiz-opt.correct { background: #e8f5e9; border-color: var(--green); }
 .quiz-opt.wrong { background: #ffebee; border-color: #f44336; animation: shake 0.5s; }
 
