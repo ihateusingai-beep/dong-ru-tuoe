@@ -49,7 +49,7 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 .hub-desc { font-size: 1.1em; opacity: 0.8; margin-bottom: 12px; }
 .hub-status { font-size: 0.95em; padding: 6px 14px; border-radius: 20px; display: inline-block; }
 .hub-status.done { background: #58cc02; color: #fff; font-weight: 700; }
-.hub-status.locked { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); }
+.hub-status.locked { background: #f7f7f7; color: #afafaf; font-weight: 600; }
 .hub-nav { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .hub-nav-btn { background: rgba(255,255,255,0.2); border: 2px solid #fff; color: #fff; padding: 14px 28px; font-size: 1.1em; border-radius: 12px; cursor: pointer; }
 .hub-nav-btn:hover { background: rgba(255,255,255,0.4); }
@@ -65,8 +65,8 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 .nav-btn { background: #ffffff; border: 2px solid #e5e5e5; color: #777777; padding: 14px 28px; font-size: 1.1em; font-weight: 700; border-radius: 16px; cursor: pointer; border-bottom: 4px solid #e5e5e5; }
 .nav-btn:hover { color: #3c3c3c; border-color: #afafaf; transform: translateY(-1px); }
 .nav-btn.disabled { opacity: 0.3; cursor: not-allowed; }
-.progress-bar { width: 100%; max-width: 600px; height: 12px; background: rgba(255,255,255,0.2); border-radius: 6px; margin-top: 20px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--gold); transition: width 0.4s; }
+.progress-bar { width: 100%; max-width: 600px; height: 16px; background: #e5e5e5; border-radius: 9999px; margin-top: 20px; overflow: hidden; }
+.progress-fill { height: 100%; background: #58cc02; transition: width 0.3s ease-out; }
 
 /* IDIOM EXPLAIN */
 .idiom-card { background: #ffffff; border: 2px solid #e5e5e5; border-bottom: 4px solid #e5e5e5; border-radius: 16px; padding: 32px; max-width: 700px; width: 100%; text-align: center; box-shadow: 0 2px 0 #d7d7d7; margin: 20px 0; }
@@ -82,7 +82,7 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 .word-chip { padding: 14px 24px; font-size: 1.6em; font-weight: 700; background: #58cc02; color: #fff; border-radius: 16px; cursor: pointer; transition: all 0.2s; border-bottom: 4px solid #58a700; }
 .word-chip:hover { background: #89e219; transform: translateY(-1px); }
 .word-chip.used { background: #ccc; cursor: not-allowed; }
-.sentence-result { font-size: 2.2em; min-height: 80px; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; border: 4px dashed #aaa; line-height: 1.4; }
+.sentence-result { font-size: 2em; min-height: 80px; padding: 20px; background: #f7f7f7; border-radius: 16px; margin: 20px 0; border: 3px solid #e5e5e5; line-height: 1.4; }
 .sentence-hint { font-size: 1.3em; color: #888; margin: 20px 0; }
 
 /* VOCAB LEARN */
@@ -101,7 +101,7 @@ body { font-family: 'Microsoft JhengHei', system-ui, sans-serif; background: #f7
 #quiz { background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%); }
 .quiz-card { background: #fff; border-radius: 24px; padding: 40px; max-width: 600px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
 .quiz-progress { font-size: 1.1em; color: #777777; margin-bottom: 16px; font-weight: 600; }
-.quiz-question { font-size: 2em; color: #333; margin-bottom: 30px; }
+.quiz-question { font-size: 1.8em; font-weight: 800; color: #3c3c3c; margin-bottom: 24px; }
 .quiz-img { width: 180px; height: 130px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .quiz-options { display: flex; flex-direction: column; gap: 16px; }
 .quiz-opt { padding: 20px; font-size: 1.5em; background: #f5f5f5; border: 3px solid #ddd; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
